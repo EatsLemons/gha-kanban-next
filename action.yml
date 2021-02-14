@@ -1,0 +1,5 @@
+name: 'Kanban worker'
+description: 'GitHub action to move cards on kanban project'
+runs:
+  using: 'node12'
+  main: 'index.js'
