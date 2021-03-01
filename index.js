@@ -65,7 +65,7 @@ function MyGithub (octokit) {
 
     this.cardsList = async (columnId) => {
         return (await this.octokit.projects.listCards({
-            column_id: columnId
+            column_id: columnId.toString()
         })).data
     }
 
