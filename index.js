@@ -26,7 +26,7 @@ const run = async () => {
 
     const payload = JSON.stringify(github.context.payload, undefined, 2)
 
-    console.log(123, payload.issue)
+    console.log(123, payload)
 
     if (payload.issue == null || payload.issue == undefined)
         throw "payload issue not found"
