@@ -1,5 +1,9 @@
 name: 'Kanban worker'
 description: 'GitHub action to move cards on kanban project'
+inputs:
+  OCTOKIT_TOKEN:
+    description: 'github octokit api token'
+    required: true
 runs:
   using: 'node12'
   main: 'index.js'
