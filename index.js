@@ -24,7 +24,7 @@ const run = async () => {
 
     const GH = new MyGithub(new Octokit({ auth: token }))
 
-    const payload = JSON.stringify(github.context.payload, undefined, 2)
+    const payload = github.context.payload
 
     console.log(123, payload)
 
