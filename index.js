@@ -59,7 +59,7 @@ function MyGithub (octokit) {
     this.moveCardTo = async (to, cardId) => {
         await this.octokit.projects.moveCard({
             card_id: cardId,
-            position: to
+            position: to.toString()
         })
     }
 
