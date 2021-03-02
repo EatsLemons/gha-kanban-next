@@ -2,7 +2,6 @@ const core = require('@actions/core')
 const github = require('@actions/github')
 const { Octokit } = require("@octokit/rest");
 
-//const payload = JSON.stringify(github.context.payload, undefined, 2)
 /**
  * inputs
  *  github token
@@ -13,14 +12,18 @@ const { Octokit } = require("@octokit/rest");
  *  from column
  *  target column
  * 
- * TODO
- *  exit if something not found
  *  
  * 
  */
 
 const run = async () => {
     const token = core.getInput("OCTOKIT_TOKEN")
+    const owner = core.getInput("REPO_OWNER")
+    const repo = core.getInput("REPO_NAME")
+    const project = core.getInput("PROJECT")
+    const from = core.getInput("COLUMN_FROM")
+    const to = core.getInput("COLUMN_TO")
+    const label = core.getInput("LABEL_NAME")
 
     const GH = new MyGithub(new Octokit({ auth: token }))
 
@@ -31,22 +34,20 @@ const run = async () => {
     if (payload.issue == null || payload.issue == undefined)
         throw "payload issue not found"
 
-    var firstColumn = await GH.getColumnId("EatsLemons", "gha-test", "test", "open")
-    var secondColumn = await GH.getColumnId("EatsLemons", "gha-test", "test", "edit")
+    var firstColumn = await GH.getColumnId(owner, repo, project, from)
+    var secondColumn = await GH.getColumnId(owner, repo, project, to)
 
-    var cardId = await findCardId(GH, firstColumn, payload.issue)
+    var card = await findCardId(GH, firstColumn, payload.issue)
+    if (card == undefined)
+        return
 
-    await GH.moveCardTo(secondColumn.id, cardId)
-
-    console.log(cardList)
+    await GH.moveCardTo(secondColumn.id, card.id)
 }
 
 async function findCardId(GH, column, issue) {
     var cardList = await GH.cardsList(column.id)
     
-    console.log(133, cardList)
-    
-    return cardList.filter(x => x.content_url === issue.url)[0].id
+    return cardList.find(x => x.content_url === issue.url)
 }
 
 try {
