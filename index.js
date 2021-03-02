@@ -43,7 +43,9 @@ const run = async () => {
 
 async function findCardId(GH, column, issue) {
     var cardList = await GH.cardsList(column.id)
-console.log(cardList)
+    
+    console.log(133, cardList)
+    
     return cardList.filter(x => x.content_url === issue.url)[0].id
 }
 
